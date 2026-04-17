@@ -10,6 +10,53 @@
     <link rel="apple-touch-icon" href="icon.svg">
     <script src="fuse.js"></script>
     <style>
+
+        /* Sidebar transition and hidden state */
+.sidebar {
+    width: 340px;
+    transition: margin-left 0.3s ease;
+    flex-shrink: 0;
+}
+
+.sidebar.hidden {
+    margin-left: -340px; /* Slides it out of view */
+}
+
+/* Floating button to bring sidebar back */
+.toggle-btn-float {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    display: none; /* Hidden by default */
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Show floating button only when sidebar is hidden */
+.sidebar.hidden ~ .toggle-btn-float {
+    display: flex;
+}
+
+/* Button inside sidebar header to close it */
+.close-sidebar-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+.close-sidebar-btn:hover { color: #fff; }
         :root { --bg: #1e1e1e; --sidebar: #252526; --accent: #007acc; --text: #d4d4d4; --badge: #e74c3c; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); color: var(--text); overflow: hidden; }
         
@@ -85,8 +132,10 @@
 
     <div class="sidebar">
         <div class="controls">
-            <h2>Archive Browser <span id="network-status" class="status-dot" title="Online"></span></h2>
-            <button class="btn btn-lang" onclick="toggleLang()">🌐 Switch Language</button>
+<h2>
+    <span>Archive Browser <span id="network-status" class="status-dot"></span></span>
+    <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Hide Sidebar">✕</button>
+</h2>            <button class="btn btn-lang" onclick="toggleLang()">🌐 Switch Language</button>
             
             <div class="book-library">
                 <h3>Full Books</h3>
@@ -111,8 +160,18 @@
         <div class="content-area" id="image-scroll-container">
         </div>
     </div>
+    <button id="open-btn" class="toggle-btn-float" onclick="toggleSidebar()" title="Open Sidebar">☰</button>
 
     <script>
+        function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('hidden');
+    
+    // Optional: Trigger a resize event to help the browser recalculate image layouts
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 300);
+}
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
