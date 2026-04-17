@@ -75,8 +75,8 @@ body {
     flex-direction: column;
     background: #111;
     position: relative;
-    touch-action: pan-x pan-y; /* Allows panning while zoomed */
-}        
+    /* Removed touch-action so standard scrolling flows through */
+}    
         .sidebar { width: 340px; background: var(--sidebar); display: flex; flex-direction: column; border-right: 1px solid #333; z-index: 10; }
         .controls { padding: 15px; border-bottom: 1px solid #444; background: #2d2d30; }
         .controls h2 { margin: 0 0 10px; font-size: 18px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
@@ -118,21 +118,21 @@ body {
             scroll-behavior: smooth;
         }
         
-        img.page-view { 
-                    width: 100%; 
-                    max-width: 900px; 
-                    
-                    /* THE NEW FIX: Reserves space based on a standard A4 page ratio */
-                    aspect-ratio: 1 / 1.414; 
-                    object-fit: contain; /* Failsafe: Ensures the image NEVER stretches */
-                    
-                    height: auto; 
-                    box-shadow: 0 5px 30px rgba(0,0,0,0.9); 
-                    border-radius: 6px; 
-                    background: #222; 
-                    display: block;
-                    transition: outline 0.3s ease;
-                }
+img.page-view { 
+    width: 100%; 
+    max-width: 900px; 
+    aspect-ratio: 1 / 1.414; 
+    object-fit: contain; 
+    height: auto; 
+    box-shadow: 0 5px 30px rgba(0,0,0,0.9); 
+    border-radius: 6px; 
+    background: #222; 
+    display: block;
+    transition: outline 0.3s ease;
+    
+    /* Change this line to 'auto' or delete it entirely */
+    touch-action: auto; 
+}
         
         .target-highlight {
             outline: 6px solid var(--accent);
