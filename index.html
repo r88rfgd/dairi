@@ -56,16 +56,20 @@
         }
         
         img.page-view { 
-            width: 100%; 
-            max-width: 900px; 
-            min-height: 1000px; /* <--- THE FIX: Reserves scroll space so you can always scroll up! */
-            height: auto; 
-            box-shadow: 0 5px 30px rgba(0,0,0,0.9); 
-            border-radius: 6px; 
-            background: #222; /* Dark placeholder color while the image lazy-loads */
-            display: block;
-            transition: outline 0.3s ease;
-        }
+                    width: 100%; 
+                    max-width: 900px; 
+                    
+                    /* THE NEW FIX: Reserves space based on a standard A4 page ratio */
+                    aspect-ratio: 1 / 1.414; 
+                    object-fit: contain; /* Failsafe: Ensures the image NEVER stretches */
+                    
+                    height: auto; 
+                    box-shadow: 0 5px 30px rgba(0,0,0,0.9); 
+                    border-radius: 6px; 
+                    background: #222; 
+                    display: block;
+                    transition: outline 0.3s ease;
+                }
         
         .target-highlight {
             outline: 6px solid var(--accent);
