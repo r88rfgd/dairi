@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Optimized Music Archive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Optimized Music Archive</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e1e1e">
     <link rel="apple-touch-icon" href="icon.svg">
@@ -57,26 +58,8 @@
 }
 .close-sidebar-btn:hover { color: #fff; }
         :root { --bg: #1e1e1e; --sidebar: #252526; --accent: #007acc; --text: #d4d4d4; --badge: #e74c3c; }
-body { 
-    font-family: 'Segoe UI', sans-serif; 
-    margin: 0; 
-    display: flex; 
-    height: 100vh; 
-    background: var(--bg); 
-    color: var(--text); 
-    /* Remove or comment out overflow: hidden if pinch-zoom still feels "stuck" */
-    overflow: hidden; 
-}
-
-/* Ensure the viewer specifically allows its content to be manipulated */
-.viewer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: #111;
-    position: relative;
-    /* Removed touch-action so standard scrolling flows through */
-}    
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); color: var(--text); overflow: hidden; }
+        
         .sidebar { width: 340px; background: var(--sidebar); display: flex; flex-direction: column; border-right: 1px solid #333; z-index: 10; }
         .controls { padding: 15px; border-bottom: 1px solid #444; background: #2d2d30; }
         .controls h2 { margin: 0 0 10px; font-size: 18px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
@@ -104,6 +87,7 @@ body {
         .card small { display: block; color: #aaa; margin-top: 4px; font-size: 12px; }
         .badge { position: absolute; top: 15px; right: 15px; background: var(--badge); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; text-transform: uppercase; font-weight: bold; }
 
+        .viewer { flex: 1; display: flex; flex-direction: column; background: #111; position: relative; }
         .toolbar { padding: 15px 20px; background: #333; border-bottom: 1px solid #444; z-index: 10; }
         
         .content-area { 
@@ -118,21 +102,21 @@ body {
             scroll-behavior: smooth;
         }
         
-img.page-view { 
-    width: 100%; 
-    max-width: 900px; 
-    aspect-ratio: 1 / 1.414; 
-    object-fit: contain; 
-    height: auto; 
-    box-shadow: 0 5px 30px rgba(0,0,0,0.9); 
-    border-radius: 6px; 
-    background: #222; 
-    display: block;
-    transition: outline 0.3s ease;
-    
-    /* Change this line to 'auto' or delete it entirely */
-    touch-action: auto; 
-}
+        img.page-view { 
+                    width: 100%; 
+                    max-width: 900px; 
+                    
+                    /* THE NEW FIX: Reserves space based on a standard A4 page ratio */
+                    aspect-ratio: 1 / 1.414; 
+                    object-fit: contain; /* Failsafe: Ensures the image NEVER stretches */
+                    
+                    height: auto; 
+                    box-shadow: 0 5px 30px rgba(0,0,0,0.9); 
+                    border-radius: 6px; 
+                    background: #222; 
+                    display: block;
+                    transition: outline 0.3s ease;
+                }
         
         .target-highlight {
             outline: 6px solid var(--accent);
@@ -142,22 +126,6 @@ img.page-view {
         @media all and (display-mode: standalone) {
             .controls h2::after { content: " (App Mode)"; font-size: 12px; color: #aaa; }
         }
-        img.page-view {
-    /* ... your existing styles ... */
-    max-width: 100%;
-    height: auto;
-    touch-action: pinch-zoom; /* Specifically tells iOS to allow pinching on the image */
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        position: absolute; /* Overlays sidebar on mobile so it doesn't take up space */
-        height: 100%;
-    }
-    .sidebar.hidden {
-        margin-left: -100%; /* Fully hide on smaller screens */
-    }
-}
     </style>
 </head>
 <body>
